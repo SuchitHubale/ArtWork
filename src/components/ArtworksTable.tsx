@@ -37,7 +37,6 @@ export default function ArtworksTable() {
   const [loading, setLoading] = useState(false);
   const [pendingSelectCount, setPendingSelectCount] = useState(0);
   const [overlayInput, setOverlayInput] = useState<number | null>(null);
-  const [lastSelectedId, setLastSelectedId] = useState<number | null>(null);
   const opRef = React.useRef<OverlayPanel>(null);
 
   const fetchArtworks = async (page: number, limit: number) => {
