@@ -34,7 +34,6 @@ export default function ArtworksTable() {
   const [currentPage, setCurrentPage] = useState(1);
   const [rows, setRows] = useState(5);
   const [totalRecords, setTotalRecords] = useState(0);
-  const [loading, setLoading] = useState(false);
   const [pendingSelectCount, setPendingSelectCount] = useState(0);
   const [overlayInput, setOverlayInput] = useState<number | null>(null);
   const opRef = React.useRef<OverlayPanel>(null);
@@ -79,10 +78,6 @@ export default function ArtworksTable() {
     const pageNumber = event.page !== undefined ? event.page + 1 : 1;
     setCurrentPage(pageNumber);
     setRows(event.rows);
-  };
-
-  const getSelectedArtworksForPage = (): Artwork[] => {
-    return artworks.filter((artwork) => selectedArtworksMap[artwork.id]);
   };
 
   const renderCell = (field: keyof Artwork) => (rowData: Artwork) => {
