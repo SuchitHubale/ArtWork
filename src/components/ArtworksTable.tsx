@@ -39,7 +39,6 @@ export default function ArtworksTable() {
   const opRef = React.useRef<OverlayPanel>(null);
 
   const fetchArtworks = async (page: number, limit: number) => {
-    setLoading(true);
     try {
       const res = await fetch(`https://api.artic.edu/api/v1/artworks?page=${page}&limit=${limit}`);
       const data: APIResponse = await res.json();
@@ -48,7 +47,7 @@ export default function ArtworksTable() {
     } catch (err) {
       console.error('Error fetching data:', err);
     } finally {
-      setLoading(false);
+      
     }
   };
 
