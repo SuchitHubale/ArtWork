@@ -138,19 +138,37 @@ export default function ArtworksTable() {
       <DataTable
         value={artworks}
         paginator
-        lazy
-        loading={loading}
-        totalRecords={totalRecords}
         rows={rows}
         first={(currentPage - 1) * rows}
+        totalRecords={totalRecords}
+        lazy
         onPage={onPageChange}
-        rowsPerPageOptions={[5, 10, 12, 25, 50]}
-        selection={getSelectedArtworksForPage()}
         dataKey="id"
-        selectionMode="checkbox"
-        tableStyle={{ minWidth: '60rem', background: '#f9fafb', borderRadius: 8 }}
-        paginatorTemplate="RowsPerPageDropdown PrevPageLink PageLinks NextPageLink"
+        selection={artworks.filter((artwork) => selectedArtworksMap[artwork.id])}
+        onSelectionChange={(e) => {
+          const newSelection = e.value as Artwork[];
+          const newMap: Record<number, Artwork> = { ...selectedArtworksMap };
+
+          // Get current page artwork IDs
+          const currentPageIds = artworks.map((a) => a.id);
+
+          // Deselect those that are NOT in the current selection
+          currentPageIds.forEach((id) => {
+            if (!newSelection.some((art) => art.id === id)) {
+              delete newMap[id];
+            }
+          });
+
+          // Add selected rows
+          newSelection.forEach((artwork) => {
+            newMap[artwork.id] = artwork;
+          });
+
+          setSelectedArtworksMap(newMap);
+        }}
+        selectionMode="multiple"
       >
+
         <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
         <Column field="title" header="Title" style={{ width: '25%' }} body={renderCell("title")}></Column>
         <Column field="place_of_origin" header="Place of Origin" style={{ width: '15%' }} body={renderCell("place_of_origin")}></Column>
